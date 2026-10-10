@@ -1,4 +1,4 @@
-namespace SocialNetworkApp.Models
+namespace SocialNetworkApp.ViewModels 
 {
     public class ErrorViewModel
     {

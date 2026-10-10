@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SocialNetworkApp.Common\SocialNetworkApp.Common.csproj" />
+    <ProjectReference Include="..\SocialNetworkApp.Data\SocialNetworkApp.Data.csproj" />
+    <ProjectReference Include="..\SocialNetworkApp.ViewModels\SocialNetworkApp.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>
