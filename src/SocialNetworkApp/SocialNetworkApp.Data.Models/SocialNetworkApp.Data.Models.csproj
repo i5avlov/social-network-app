@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SocialNetworkApp.Common\SocialNetworkApp.Common.csproj" />
+  </ItemGroup>
+
 </Project>
