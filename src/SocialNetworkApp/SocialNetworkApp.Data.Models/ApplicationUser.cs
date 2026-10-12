@@ -1,27 +1,34 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static SocialNetworkApp.Common.ValidationConstants.ApplicationUser; 
+using static SocialNetworkApp.Common.ErrorMessages; 
+
 
 namespace SocialNetworkApp.Data.Models
 {
     public class ApplicationUser : IdentityUser
     {
         [Required]
-        [MaxLength(50)]
+        [MaxLength(FirstNameMaxLength, 
+            ErrorMessage = MaxLengthExceededMessage)] 
         public string FirstName { get; set; } = null!;
 
         [Required]
-        [MaxLength(50)] 
+        [MaxLength(LastNameMaxLength,
+            ErrorMessage = MaxLengthExceededMessage)] 
         public string LastName { get; set; } = null!;
 
         [Required]
-        [MaxLength(80)]
+        [MaxLength(CityMaxLength,
+            ErrorMessage = MaxLengthExceededMessage)]
         public string City { get; set; } = null!;
 
-        [MaxLength(100)]
+        [MaxLength(OccupationMaxLength,
+            ErrorMessage = MaxLengthExceededMessage)] 
         public string? Occupation { get; set; }
 
-        [Column(TypeName = "DATE")]
-        public DateOnly? Birthdate { get; set; }
+        [Column(TypeName = BirthdateColumnTypeName)]
+        public DateOnly? Birthdate { get; set; } 
     }
 }
