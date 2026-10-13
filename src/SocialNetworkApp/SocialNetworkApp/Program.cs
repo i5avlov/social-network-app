@@ -17,7 +17,18 @@ namespace SocialNetworkApp
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+
+                options.Password.RequireDigit = false; 
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false; 
+                options.Password.RequireNonAlphanumeric = false; 
+
+                options.Password.RequiredLength = 4; 
+
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
