@@ -1,0 +1,14 @@
+﻿@model UserProfileViewModel 
+
+@{ 
+    ViewData["Title"] = $"{Model.FirstName} {Model.LastName}"; 
+}  
+
+<p>User Profile</p> 
+<h2 class="h3">@ViewData["Title"]</h2> 
+<hr />
+
+<div> 
+    <p><strong>City:</strong> @Model.City</p>
+    <p><strong>Born:</strong> @Model.Birthdate</p> 
+</div>

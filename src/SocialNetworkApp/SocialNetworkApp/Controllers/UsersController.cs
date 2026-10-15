@@ -16,7 +16,28 @@ namespace SocialNetworkApp.Controllers
         [HttpGet] 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<UsersIndexUserViewModel> model = await this.usersService.GetAll(); 
+            IEnumerable<UsersIndexUserViewModel> model = await this.usersService
+                .GetAll(); 
+            return View(model); 
+        }
+
+        [HttpGet] 
+        public async Task<IActionResult> Profile(string userId)
+        { 
+            // No user id 
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest(); 
+            } 
+
+            UserProfileViewModel? model = await this.usersService
+                .GetProfileById(userId); 
+
+            // No user 
+            if (model == null)
+            {
+                return NotFound(); 
+            }
             return View(model); 
         }
     }

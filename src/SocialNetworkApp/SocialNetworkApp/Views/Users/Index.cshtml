@@ -10,8 +10,9 @@
 @foreach (var user in Model)
 {
     <article>
-        <h4>@user.Name</h4> 
+        <h4 class="h5">@user.Name</h4> 
         <p>@user.City</p> 
+        <a asp-controller="Users" asp-action="Profile" asp-route-userId="@user.Id">View profile</a>
     </article>
 } 
 </div>
