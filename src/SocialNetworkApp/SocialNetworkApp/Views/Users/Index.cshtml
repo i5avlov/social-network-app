@@ -1,0 +1,17 @@
+﻿@model IEnumerable<UsersIndexUserViewModel> 
+
+@{ 
+    ViewData["Title"] = "All Users";
+} 
+
+<h2 class="h3">@ViewData["Title"]</h2> 
+
+<div>
+@foreach (var user in Model)
+{
+    <article>
+        <h4>@user.Name</h4> 
+        <p>@user.City</p> 
+    </article>
+} 
+</div>

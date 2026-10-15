@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SocialNetworkApp.Core.Services;
+using SocialNetworkApp.Core.Services.Contracts;
 using SocialNetworkApp.Data;
 using SocialNetworkApp.Data.Models;
 
@@ -31,6 +33,8 @@ namespace SocialNetworkApp
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<IUsersService, UsersService>(); 
 
             var app = builder.Build();
 
