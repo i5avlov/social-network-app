@@ -10,6 +10,13 @@
             public const int OccupationMaxLength = 100;
             public const string BirthdateColumnTypeName = "DATE"; 
         }
+
+        public static class Post
+        {
+            public const int TextMinLength = 2;
+            public const int TextMaxLength = 1500; 
+            
+        }
         
     }
 }

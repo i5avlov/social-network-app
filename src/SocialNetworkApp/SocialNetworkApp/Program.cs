@@ -34,7 +34,10 @@ namespace SocialNetworkApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
+            // Users service 
             builder.Services.AddScoped<IUsersService, UsersService>(); 
+            // Posts service 
+            builder.Services.AddScoped<IPostsService, PostsService>(); 
 
             var app = builder.Build();
 

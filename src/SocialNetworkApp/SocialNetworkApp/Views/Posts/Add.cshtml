@@ -1,0 +1,33 @@
+﻿@model CreatePostFormModel 
+
+@{
+    ViewData["Title"] = "Create Post";
+}
+
+<h1 class="h2">@ViewData["Title"]</h1>
+<p class="h5"></p>
+<hr />
+
+<div class="row">
+    <div class="offset-3 col-md-6">
+        <section>
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <textarea asp-for="@Model.Text" class="form-control" rows="10" style="height:100%;" aria-required="true" placeholder="Once upon a time..."></textarea>
+                    <label asp-for="@Model.Text" class="form-label"></label>
+                    <span asp-validation-for="@Model.Text" class="text-danger"></span>
+                </div> 
+                <input asp-for="@Model.UserId" type="hidden" /> 
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Add Post</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

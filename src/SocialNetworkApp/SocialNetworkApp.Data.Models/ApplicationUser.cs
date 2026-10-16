@@ -30,6 +30,8 @@ namespace SocialNetworkApp.Data.Models
 
         [Required] 
         [Column(TypeName = BirthdateColumnTypeName)]
-        public DateOnly Birthdate { get; set; } 
+        public DateOnly Birthdate { get; set; }
+
+        public IEnumerable<Post> Posts { get; set; } = new List<Post>(); 
     }
 }
