@@ -14,10 +14,8 @@ namespace SocialNetworkApp.Core.Services
             this.context = context;
         } 
 
-        public async Task AddPostAsync(CreatePostFormModel model)
-        {
-            throw new Exception(); 
-
+        public async Task AddAsync(CreatePostFormModel model) 
+        { 
             // Fill in model data in new Post entity 
             Post entity = new Post()
             {
