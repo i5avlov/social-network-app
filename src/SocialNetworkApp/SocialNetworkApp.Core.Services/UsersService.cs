@@ -47,11 +47,9 @@ namespace SocialNetworkApp.Core.Services
                 .FirstOrDefaultAsync(); 
         }
 
-        private static string? FormatBirthdate(DateOnly? birthdate)
+        private static string FormatBirthdate(DateOnly birthdate)
         {
-            return birthdate == null
-                ? null
-                : ((DateOnly) birthdate).ToString("MMMM dd, yyyy"); 
+            return birthdate.ToString("MMMM dd, yyyy"); 
         }
     }
 }

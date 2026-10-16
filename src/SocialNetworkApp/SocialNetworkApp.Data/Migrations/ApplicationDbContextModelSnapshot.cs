@@ -167,7 +167,7 @@ namespace SocialNetworkApp.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly?>("Birthdate")
+                    b.Property<DateOnly>("Birthdate")
                         .HasColumnType("DATE");
 
                     b.Property<string>("City")

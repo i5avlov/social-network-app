@@ -28,7 +28,8 @@ namespace SocialNetworkApp.Data.Models
             ErrorMessage = MaxLengthExceededMessage)] 
         public string? Occupation { get; set; }
 
+        [Required] 
         [Column(TypeName = BirthdateColumnTypeName)]
-        public DateOnly? Birthdate { get; set; } 
+        public DateOnly Birthdate { get; set; } 
     }
 }

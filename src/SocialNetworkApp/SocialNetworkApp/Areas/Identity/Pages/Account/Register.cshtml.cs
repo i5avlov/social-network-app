@@ -2,14 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +11,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SocialNetworkApp.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading;
+using System.Threading.Tasks;
 using static SocialNetworkApp.Common.ValidationConstants.ApplicationUser; 
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SocialNetworkApp.Areas.Identity.Pages.Account
 {
@@ -99,14 +100,15 @@ namespace SocialNetworkApp.Areas.Identity.Pages.Account
             /// User chosen main occupation 
             /// </summary>
             [StringLength(OccupationMaxLength, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
-            public string Occupation { get; set; } = string.Empty; 
+            public string Occupation { get; set; } = string.Empty;
 
             /// <summary>
             /// User date of birth 
             /// </summary> 
+            [Required]
             [DataType(DataType.Date)]
             [Display(Name = "Birth Date")]
-            public string Birthdate { get; set; } = string.Empty; 
+            public string Birthdate { get; set; } 
 
 
 
@@ -165,8 +167,14 @@ namespace SocialNetworkApp.Areas.Identity.Pages.Account
                 user.Occupation = Input.Occupation; 
 
                 bool dateParsed = DateOnly.TryParseExact(Input.Birthdate, "yyyy-MM-dd", out DateOnly birthdate);
-                user.Birthdate = dateParsed == true ? birthdate : null; 
-                 
+                if (dateParsed == true)
+                {
+                    user.Birthdate = birthdate;
+                }
+                else
+                {
+                    ModelState.AddModelError(nameof(Input.Birthdate), "Enter valid date"); 
+                }
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
