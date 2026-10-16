@@ -54,10 +54,10 @@ namespace SocialNetworkApp.Controllers
 
             try
             {
-                await this.postsService.AddPostAsync(model);
-                return RedirectToAction(nameof(Index)); 
+                await this.postsService.AddAsync(model);
+                return RedirectToAction("Profile", "Users", new { userId = userId }); 
             }
-            catch (Exception e)
+            catch 
             { 
                 return View("Error"); 
             }
