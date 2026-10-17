@@ -1,16 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialNetworkApp.Core.Services.Contracts;
 using SocialNetworkApp.ViewModels.Users;
+using System.Security.Claims;
 
 namespace SocialNetworkApp.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly IUsersService usersService;
-
-        public UsersController(IUsersService usersService)
+        private readonly IUsersService usersService; 
+        private readonly IPostsService postsService; 
+        public UsersController(
+            IUsersService usersService, 
+            IPostsService postsService) 
         {
             this.usersService = usersService; 
+            this.postsService = postsService; 
         }
 
         [HttpGet] 
@@ -37,7 +41,15 @@ namespace SocialNetworkApp.Controllers
             if (model == null)
             {
                 return NotFound(); 
-            }
+            } 
+
+            // Attach user posts to view model 
+            model.Posts = await this.postsService.GetAllByUserIdAsync(userId);
+
+            // Whether profile belongs to logged in user
+            string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);  
+            model.IsLoggedInUser = loggedInUserId == userId; 
+
             return View(model); 
         }
     }

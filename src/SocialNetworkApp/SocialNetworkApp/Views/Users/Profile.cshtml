@@ -6,9 +6,27 @@
 
 <p>User Profile</p> 
 <h2 class="h3">@ViewData["Title"]</h2> 
-<hr />
+<hr /> 
 
-<div> 
+<div>
     <p><strong>City:</strong> @Model.City</p>
-    <p><strong>Born:</strong> @Model.Birthdate</p> 
+    <p><strong>Born:</strong> @Model.Birthdate</p>
+</div>
+
+@if (Model.IsLoggedInUser)
+{
+    <a class="btn btn-success" asp-controller="Posts" asp-action="Add">Create Post</a> 
+} 
+
+<h3 class="h4">Posts</h3> 
+<div> 
+    @foreach (PostsListEntryViewModel post in Model.Posts)
+    {
+        <article> 
+            <p>@(post.Text)...</p> 
+        </article> 
+        <hr /> 
+    } 
+
+    <a class="btn btn-success" asp-controller="Posts" asp-action="UserPosts" asp-route-userId="@Model.Id">All Posts</a> 
 </div>
