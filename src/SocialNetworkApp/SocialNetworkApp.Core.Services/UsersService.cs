@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetworkApp.Core.Services.Contracts;
 using SocialNetworkApp.Data;
+using SocialNetworkApp.Data.Models;
 using SocialNetworkApp.ViewModels.Users;
 
 namespace SocialNetworkApp.Core.Services
@@ -29,6 +30,13 @@ namespace SocialNetworkApp.Core.Services
                 .ToListAsync(); 
         }
 
+        public async Task<ApplicationUser?> GetById(string userId)
+        {
+            return await this.context
+                .Users
+                .FindAsync(userId);
+        }
+
         public async Task<UserProfileViewModel?> GetProfileById(string userId)
         { 
             // Filter target user and map to profile view model 
@@ -51,5 +59,7 @@ namespace SocialNetworkApp.Core.Services
         {
             return birthdate.ToString("MMMM dd, yyyy"); 
         }
+
+        
     }
 }

@@ -4,6 +4,8 @@ namespace SocialNetworkApp.Core.Services.Contracts
 {
     public interface IPostsService
     {
-        Task AddAsync(CreatePostFormModel model); 
+        Task AddAsync(CreatePostFormModel model);
+
+        Task<IEnumerable<PostsListEntryViewModel>> GetAllByUserIdAsync(string userId); 
     }
 }

@@ -1,0 +1,33 @@
+﻿@model UserPostsViewModel 
+
+@{
+    ViewData["Title"] = $"{Model.Name} Posts"; 
+}
+
+<h2 class="h3">@ViewData["Title"]</h2>
+<hr /> 
+
+@if (Model.IsLoggedInUser == true) 
+{
+    <a class="btn btn-success" asp-controller="Posts" asp-action="Add">Create Post</a> 
+}
+
+<h3 class="h4">Posts</h3>
+<div>
+    @foreach (PostsListEntryViewModel post in Model.Posts)
+    {
+        <article>
+            <p>@post.Text</p> 
+            <a class="btn btn-success" asp-controller="Posts" asp-action="Details" asp-route-postId="@post.Id">View</a> 
+
+            @if (Model.IsLoggedInUser == true)
+            {
+                <div class="d-inline"> 
+                    <a class="btn btn-primary" asp-controller="Posts" asp-action="Edit">Edit</a> 
+                    <a class="btn btn-danger" asp-controller="Posts" asp-action="Delete">Delete</a>
+                </div>
+            }
+        </article>
+        <hr />
+    } 
+</div> 

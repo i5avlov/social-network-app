@@ -1,4 +1,5 @@
-﻿using SocialNetworkApp.Core.Services.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetworkApp.Core.Services.Contracts;
 using SocialNetworkApp.Data;
 using SocialNetworkApp.Data.Models;
 using SocialNetworkApp.ViewModels.Posts;
@@ -27,6 +28,20 @@ namespace SocialNetworkApp.Core.Services
                 .Posts
                 .AddAsync(entity);
             await this.context.SaveChangesAsync(); 
+        }
+
+        public async Task<IEnumerable<PostsListEntryViewModel>> GetAllByUserIdAsync(string userId)
+        {
+            return await this.context
+                .Posts
+                .Where(p => p.UserId == userId) 
+                .OrderByDescending(p => p.Id)  
+                .Select(p => new PostsListEntryViewModel()
+                {
+                    Id = p.Id,
+                    Text = p.Text 
+                })
+                .ToListAsync(); 
         }
     }
 }

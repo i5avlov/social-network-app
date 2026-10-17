@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetworkApp.Core.Services.Contracts;
+using SocialNetworkApp.Data.Models;
 using SocialNetworkApp.ViewModels;
 using SocialNetworkApp.ViewModels.Posts;
 using System.Security.Claims;
@@ -11,16 +12,15 @@ namespace SocialNetworkApp.Controllers
     public class PostsController : Controller
     {
         private readonly IPostsService postsService;
+        private readonly IUsersService usersService; 
 
-        public PostsController(IPostsService postsService)
+        public PostsController(
+            IPostsService postsService, 
+            IUsersService usersService)
         {
-            this.postsService = postsService; 
+            this.postsService = postsService;
+            this.usersService = usersService; 
         } 
-
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         [HttpGet]
         public IActionResult Add()
@@ -62,5 +62,30 @@ namespace SocialNetworkApp.Controllers
                 return View("Error"); 
             }
         }
-    }
+
+        public async Task<IActionResult> UserPosts(string userId)
+        {
+            string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (loggedInUserId == null)
+            {
+                return Unauthorized();
+            } 
+
+            ApplicationUser? user = await this.usersService.GetById(userId);
+            if (user == null)
+            {
+                return BadRequest(); 
+            }
+
+            UserPostsViewModel model = new UserPostsViewModel(); 
+
+            model.Name = $"{user.FirstName} {user.LastName}";
+            model.City = user.City; 
+            model.Posts = await this.postsService.GetAllByUserIdAsync(userId);
+            // Tell the view if logged user is the owner of listed posts 
+            model.IsLoggedInUser = loggedInUserId == userId; 
+
+            return View(model); 
+        }
+    } 
 }
