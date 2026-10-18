@@ -20,7 +20,21 @@ namespace SocialNetworkApp.Controllers
         {
             this.postsService = postsService;
             this.usersService = usersService; 
-        } 
+        }
+
+        [HttpGet] 
+        public async Task<IActionResult> Details(int postId)
+        {
+            PostDetailsViewModel? model = await this.postsService.GetDetailsByIdAsync(postId);
+            if (model == null)
+            {
+                return NotFound(); 
+            }
+            string userId = await this.postsService.GetAuthorIdAsync(postId); 
+            string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            model.IsLoggedInUser = userId == loggedInUserId; 
+            return View(model); 
+        }
 
         [HttpGet]
         public IActionResult Add()
@@ -63,6 +77,7 @@ namespace SocialNetworkApp.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<IActionResult> UserPosts(string userId)
         {
             string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -39,9 +39,46 @@ namespace SocialNetworkApp.Core.Services
                 .Select(p => new PostsListEntryViewModel()
                 {
                     Id = p.Id,
-                    Text = p.Text 
+                    Text = CutText(p.Text, 50)  
                 })
                 .ToListAsync(); 
         }
+
+        public async Task<PostDetailsViewModel?> GetDetailsByIdAsync(int postId)
+        {
+            return await this.context
+                .Posts
+                .Where(p => p.Id == postId)
+                .Select(p => new PostDetailsViewModel()
+                {
+                    Id = p.Id, 
+                    Text = p.Text, 
+                    AuthorName = $"{p.User.FirstName} {p.User.LastName}" 
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        private static string CutText(string text, int length)
+        {
+            if (text.Length > length)
+            {
+                text = text.Substring(0, length) + "..."; 
+            }
+            return text; 
+        }
+
+        public async Task<string> GetAuthorIdAsync(int postId)
+        {
+            Post? entity = await this.context
+                .Posts
+                .FindAsync(postId);
+
+            if (entity == null)
+            {
+                throw new ArgumentException();
+            }
+
+            return entity.UserId; 
+        } 
     }
 }
