@@ -1,7 +1,13 @@
-﻿@model PostDetailsViewModel
+﻿@using System.Security.Claims
+@model PostDetailsViewModel
 
 @{
     ViewData["Title"] = "Post Details";
+} 
+
+@if (Model.IsLikedByLoggedUser) 
+{
+    <p class="alert-dismissible">You liked this post.</p>  
 }
 
 <h1 class="h2">@ViewData["Title"]</h1>
@@ -9,3 +15,13 @@
 <hr /> 
 
 <p>@Model.Text</p> 
+
+@if (Model.IsLoggedInUser == false)
+{
+    <form asp-controller="Posts" asp-action="Like" method="POST">
+        <input type="hidden" name="postId" value="@Model.Id" />
+        <input type="hidden" name="likingUserId" value="@User.FindFirst(ClaimTypes.NameIdentifier)?.Value" /> 
+
+        <button type="submit" class="btn btn-primary">@(Model.IsLikedByLoggedUser == false ? "Like" : "Unlike")</button>
+    </form>
+}

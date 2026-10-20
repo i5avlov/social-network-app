@@ -246,6 +246,30 @@ namespace SocialNetworkApp.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("SocialNetworkApp.Data.Models.Like", b =>
+                {
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PostId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("SocialNetworkApp.Data.Models.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -321,6 +345,25 @@ namespace SocialNetworkApp.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SocialNetworkApp.Data.Models.Like", b =>
+                {
+                    b.HasOne("SocialNetworkApp.Data.Models.Post", "Post")
+                        .WithMany("UserLikes")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SocialNetworkApp.Data.Models.ApplicationUser", "User")
+                        .WithMany("PostLikes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SocialNetworkApp.Data.Models.Post", b =>
                 {
                     b.HasOne("SocialNetworkApp.Data.Models.ApplicationUser", "User")
@@ -334,7 +377,14 @@ namespace SocialNetworkApp.Data.Migrations
 
             modelBuilder.Entity("SocialNetworkApp.Data.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("PostLikes");
+
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("SocialNetworkApp.Data.Models.Post", b =>
+                {
+                    b.Navigation("UserLikes");
                 });
 #pragma warning restore 612, 618
         }

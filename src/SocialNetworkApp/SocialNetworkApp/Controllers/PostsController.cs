@@ -25,14 +25,23 @@ namespace SocialNetworkApp.Controllers
         [HttpGet] 
         public async Task<IActionResult> Details(int postId)
         {
+            string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (loggedInUserId == null)
+            {
+                return Unauthorized();
+            } 
+
             PostDetailsViewModel? model = await this.postsService.GetDetailsByIdAsync(postId);
             if (model == null)
             {
                 return NotFound(); 
-            }
-            string userId = await this.postsService.GetAuthorIdAsync(postId); 
-            string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            model.IsLoggedInUser = userId == loggedInUserId; 
+            } 
+
+            string postAuthorId = await this.postsService.GetAuthorIdAsync(postId); 
+
+            model.IsLoggedInUser = postAuthorId == loggedInUserId;
+            model.IsLikedByLoggedUser = await this.postsService.LikeExistsAsync(postId, loggedInUserId); 
+
             return View(model); 
         }
 
@@ -101,6 +110,27 @@ namespace SocialNetworkApp.Controllers
             model.IsLoggedInUser = loggedInUserId == userId; 
 
             return View(model); 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Like(int postId, string likingUserId) 
+        {
+            string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (loggedInUserId == null 
+                || likingUserId != loggedInUserId)
+            {
+                return Unauthorized(); 
+            }
+
+            try
+            {
+                await this.postsService.LikeAsync(postId, loggedInUserId); 
+                return RedirectToAction(nameof(Details), new { postId = postId }); 
+            }
+            catch
+            {
+                return RedirectToAction("Error", "HomeController"); 
+            }
         }
     } 
 }

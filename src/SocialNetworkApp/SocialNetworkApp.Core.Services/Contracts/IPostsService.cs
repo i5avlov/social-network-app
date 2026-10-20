@@ -10,6 +10,10 @@ namespace SocialNetworkApp.Core.Services.Contracts
 
         Task<PostDetailsViewModel?> GetDetailsByIdAsync(int postId);
 
-        Task<string> GetAuthorIdAsync(int postId); 
+        Task<string> GetAuthorIdAsync(int postId);
+
+        Task LikeAsync(int postId, string userId);
+
+        Task<bool> LikeExistsAsync(int postId, string userId); 
     }
 }

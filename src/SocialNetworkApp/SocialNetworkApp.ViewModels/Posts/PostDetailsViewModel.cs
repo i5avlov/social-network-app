@@ -8,6 +8,8 @@
 
         public string AuthorName { get; set; } = null!; 
 
-        public bool IsLoggedInUser { get; set; } 
+        public bool IsLoggedInUser { get; set; }
+
+        public bool IsLikedByLoggedUser { get; set; } 
     }
 }

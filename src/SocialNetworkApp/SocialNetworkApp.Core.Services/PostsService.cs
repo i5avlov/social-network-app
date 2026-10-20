@@ -79,6 +79,57 @@ namespace SocialNetworkApp.Core.Services
             }
 
             return entity.UserId; 
-        } 
+        }
+
+        public async Task LikeAsync(int postId, string userId)
+        {
+            Post? post = await this.context
+                .Posts
+                .FindAsync(postId);
+            // No post  
+            if (post == null)
+            {
+                throw new ArgumentException(); 
+            } 
+
+            Like? existingLikeEntity = await this.context
+                .Likes
+                .SingleOrDefaultAsync(l => l.PostId == postId && l.UserId == userId);
+
+            
+            if (existingLikeEntity == null)
+            {
+                // Post liked by user 
+                Like newLikeEntity = new Like()
+                {
+                    PostId = postId,
+                    UserId = userId
+                };
+
+                await this.context
+                    .Likes
+                    .AddAsync(newLikeEntity);
+            } 
+            else if (existingLikeEntity.IsDeleted == false)
+            {
+                // Post unliked by user 
+                existingLikeEntity.IsDeleted = true;
+            } 
+            else if (existingLikeEntity.IsDeleted == true)
+            {
+                // Unliked post again liked by user 
+                existingLikeEntity.IsDeleted = false;
+            } 
+
+            await this.context.SaveChangesAsync(); 
+        }
+
+        public async Task<bool> LikeExistsAsync(int postId, string userId)
+        { 
+            Like? like = await this.context
+                .Likes
+                .SingleOrDefaultAsync(l => l.PostId == postId && l.UserId == userId);
+            return like != null && like.IsDeleted == false; 
+        }
     }
 }

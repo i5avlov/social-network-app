@@ -32,6 +32,8 @@ namespace SocialNetworkApp.Data.Models
         [Column(TypeName = BirthdateColumnTypeName)]
         public DateOnly Birthdate { get; set; }
 
-        public IEnumerable<Post> Posts { get; set; } = new List<Post>(); 
+        public IEnumerable<Post> Posts { get; set; } = new List<Post>();
+
+        public IEnumerable<Like> PostLikes { get; set; } = new List<Like>(); 
     }
 }

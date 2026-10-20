@@ -21,9 +21,9 @@
 <h3 class="h4">Posts</h3> 
 <div> 
     @foreach (PostsListEntryViewModel post in Model.Posts)
-    {
+    { 
         <article> 
-            <p>@(post.Text)...</p> 
+            <p>@post.Text</p> 
         </article> 
         <hr /> 
     } 

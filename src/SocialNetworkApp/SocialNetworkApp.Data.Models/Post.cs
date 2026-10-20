@@ -17,6 +17,8 @@ namespace SocialNetworkApp.Data.Models
 
         [ForeignKey(nameof(UserId))]
         [Required] 
-        public ApplicationUser User { get; set; } = null!; 
+        public ApplicationUser User { get; set; } = null!;
+
+        public IEnumerable<Like> UserLikes { get; set; } = new List<Like>(); 
     }
 }
