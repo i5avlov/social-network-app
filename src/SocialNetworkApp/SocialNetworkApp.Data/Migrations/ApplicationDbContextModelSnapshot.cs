@@ -246,6 +246,44 @@ namespace SocialNetworkApp.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("SocialNetworkApp.Data.Models.Invitation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReceiverUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("StatusChangedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverUserId");
+
+                    b.HasIndex("SenderUserId");
+
+                    b.ToTable("Invitations");
+                });
+
             modelBuilder.Entity("SocialNetworkApp.Data.Models.Like", b =>
                 {
                     b.Property<int>("PostId")
@@ -345,6 +383,25 @@ namespace SocialNetworkApp.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SocialNetworkApp.Data.Models.Invitation", b =>
+                {
+                    b.HasOne("SocialNetworkApp.Data.Models.ApplicationUser", "ReceiverUser")
+                        .WithMany("ReceivedInvitations")
+                        .HasForeignKey("ReceiverUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SocialNetworkApp.Data.Models.ApplicationUser", "SenderUser")
+                        .WithMany("SentInvitations")
+                        .HasForeignKey("SenderUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ReceiverUser");
+
+                    b.Navigation("SenderUser");
+                });
+
             modelBuilder.Entity("SocialNetworkApp.Data.Models.Like", b =>
                 {
                     b.HasOne("SocialNetworkApp.Data.Models.Post", "Post")
@@ -380,6 +437,10 @@ namespace SocialNetworkApp.Data.Migrations
                     b.Navigation("PostLikes");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("ReceivedInvitations");
+
+                    b.Navigation("SentInvitations");
                 });
 
             modelBuilder.Entity("SocialNetworkApp.Data.Models.Post", b =>

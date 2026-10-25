@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Invitation not sent";
+}
+
+<h1 class="">@ViewData["Title"]</h1> 
+@if (ViewData["InvitationNotSentMessage"] != null)
+{
+    <p class="h4">@ViewData["InvitationNotSentMessage"]</p>
+} 
+else
+{
+    <p class="h4">Due to unknown reasons</p> 
+} 
+
+@if (ViewData["ReceiverUserId"] != null)
+{
+    <a 
+        class="btn btn-primary" 
+        asp-controller="Users" 
+        asp-action="Profile" 
+        asp-route-userId="@ViewData["ReceiverUserId"]"
+    >Back to user profile</a> 
+}

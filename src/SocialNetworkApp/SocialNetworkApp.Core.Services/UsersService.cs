@@ -58,8 +58,6 @@ namespace SocialNetworkApp.Core.Services
         private static string FormatBirthdate(DateOnly birthdate)
         {
             return birthdate.ToString("MMMM dd, yyyy"); 
-        }
-
-        
+        } 
     }
 }

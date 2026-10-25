@@ -15,6 +15,8 @@ namespace SocialNetworkApp.Data
 
         public DbSet<Like> Likes { get; set; } 
 
+        public DbSet<Invitation> Invitations { get; set; } 
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -31,6 +33,22 @@ namespace SocialNetworkApp.Data
 
                 entity.HasOne(l => l.User) 
                     .WithMany(l => l.PostLikes) 
+                    .OnDelete(DeleteBehavior.Restrict); 
+            }); 
+
+            // Invitation entity configuration 
+            // Error with the default delete behavior 'cascade'
+            // due to two foreign keys referencing the same table 
+            builder.Entity<Invitation>(entity =>
+            {
+                entity.HasOne(inv => inv.SenderUser)
+                    .WithMany(u => u.SentInvitations)
+                    .HasForeignKey(inv => inv.SenderUserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(inv => inv.ReceiverUser)
+                    .WithMany(u => u.ReceivedInvitations)
+                    .HasForeignKey(inv => inv.ReceiverUserId)
                     .OnDelete(DeleteBehavior.Restrict); 
             }); 
         }

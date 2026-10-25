@@ -1,0 +1,41 @@
+﻿@model CreateInvitationFormModel 
+
+@{
+    ViewData["Title"] = "Invite Friend";
+}
+
+<h1 class="h2">@ViewData["Title"]</h1>
+<hr />
+<div> 
+    <p class="mb-2">You are inviting</p> 
+    <h2 class="h5">@Model.ReceiverUser.Name</h2>
+    <p>@Model.ReceiverUser.City</p> 
+</div> 
+
+<div class="row">
+    <div class="col-md-6">
+        <section>
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div> 
+
+                <div class="form-floating mb-3">
+                    <textarea asp-for="@Model.Text" class="form-control" rows="10" style="height:100%;" aria-required="true" placeholder="Once upon a time..."></textarea>
+                    <label asp-for="@Model.Text" class="form-label"></label>
+                    <span asp-validation-for="@Model.Text" class="text-danger"></span>
+                </div> 
+
+                <input asp-for="@Model.SenderUserId" type="hidden" /> 
+                <input asp-for="@Model.ReceiverUser.Id" type="hidden" /> 
+
+                <div>
+                    <button id="invitation-submit" type="submit" class="w-100 btn btn-lg btn-primary">Invite</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

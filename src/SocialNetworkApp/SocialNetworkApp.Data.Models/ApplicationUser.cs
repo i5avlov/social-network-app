@@ -34,6 +34,12 @@ namespace SocialNetworkApp.Data.Models
 
         public IEnumerable<Post> Posts { get; set; } = new List<Post>();
 
-        public IEnumerable<Like> PostLikes { get; set; } = new List<Like>(); 
+        public IEnumerable<Like> PostLikes { get; set; } = new List<Like>();
+
+        [InverseProperty("SenderUser")]
+        public IEnumerable<Invitation> SentInvitations { get; set; } = new List<Invitation>();
+
+        [InverseProperty("ReceiverUser")]
+        public IEnumerable<Invitation> ReceivedInvitations { get; set; } = new List<Invitation>(); 
     }
 }
