@@ -1,4 +1,5 @@
-﻿using SocialNetworkApp.ViewModels.Posts;
+﻿using SocialNetworkApp.ViewModels.Invitations;
+using SocialNetworkApp.ViewModels.Posts;
 
 namespace SocialNetworkApp.ViewModels.Users
 {
@@ -15,6 +16,8 @@ namespace SocialNetworkApp.ViewModels.Users
         public string? Birthdate { get; set; }
 
         public IEnumerable<PostsListEntryViewModel> Posts { get; set; } = new List<PostsListEntryViewModel>();
+
+        public IEnumerable<InvitationsListEntryViewModel> WaitingInvitations { get; set; } = new List<InvitationsListEntryViewModel>(); 
 
         public bool IsLoggedInUser { get; set; } 
     }

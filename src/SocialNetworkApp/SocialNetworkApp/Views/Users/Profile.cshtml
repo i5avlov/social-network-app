@@ -1,4 +1,5 @@
-﻿@model UserProfileViewModel 
+﻿@using System.Security.Claims
+@model UserProfileViewModel 
 
 @{ 
     ViewData["Title"] = $"{Model.FirstName} {Model.LastName}"; 
@@ -15,7 +16,48 @@
 
 @if (Model.IsLoggedInUser)
 {
-    <a class="btn btn-success" asp-controller="Posts" asp-action="Add">Create Post</a> 
+    <a class="btn btn-success" asp-controller="Posts" asp-action="Add">Create Post</a>
+
+    <h3 class="h4">Friend Invitations</h3>
+    <div>
+        @foreach (InvitationsListEntryViewModel inv in Model.WaitingInvitations)
+        {
+            <article>
+                <div>@inv.Text</div>
+                <div><strong>@inv.User.Name</strong></div>
+
+                <div class="d-flex"> 
+                    <form asp-controller="Invitations" asp-action="Accept" method="POST">
+                        <input type="hidden" name="invitationId" value="@inv.Id" /> 
+                        <button class="btn btn-success">Accept</button> 
+                    </form>
+
+                    <form asp-controller="Invitations" asp-action="Reject" method="POST" class="ms-2"> 
+                        <input type="hidden" name="invitationId" value="@inv.Id" /> 
+                        <button class="btn btn-danger">Reject</button>
+                    </form>
+                </div> 
+            </article>
+            <hr />
+        }
+
+        <a class="btn btn-success" asp-controller="" asp-action="" asp-route-userId="">All Received</a>
+    </div> 
+} 
+
+@if (Model.IsLoggedInUser == false)
+{
+    <a 
+        class="btn btn-success" 
+        asp-controller="Invitations" 
+        asp-action="Create" 
+        asp-route-receiverUserId="@Model.Id"
+    >Become Friends</a> 
+
+    @if (TempData["InvitationSentMessage"] != null) 
+    {
+        <p class="bg-success text-white mt-2 p-2">@TempData["InvitationSentMessage"]</p> 
+    } 
 } 
 
 <h3 class="h4">Posts</h3> 

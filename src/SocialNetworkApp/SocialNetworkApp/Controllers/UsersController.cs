@@ -9,12 +9,16 @@ namespace SocialNetworkApp.Controllers
     {
         private readonly IUsersService usersService; 
         private readonly IPostsService postsService; 
+        private readonly IInvitationsService invitationsService; 
+
         public UsersController(
             IUsersService usersService, 
-            IPostsService postsService) 
+            IPostsService postsService, 
+            IInvitationsService invitationsService) 
         {
             this.usersService = usersService; 
             this.postsService = postsService; 
+            this.invitationsService = invitationsService; 
         }
 
         [HttpGet] 
@@ -45,6 +49,8 @@ namespace SocialNetworkApp.Controllers
 
             // Attach user posts to view model 
             model.Posts = await this.postsService.GetAllByUserIdAsync(userId);
+            // Attach waiting received invitations 
+            model.WaitingInvitations = await this.invitationsService.GetAllWaitingByUserIdAsync(userId); 
 
             // Whether profile belongs to logged in user
             string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);  
