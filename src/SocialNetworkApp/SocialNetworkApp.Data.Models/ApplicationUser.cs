@@ -40,6 +40,12 @@ namespace SocialNetworkApp.Data.Models
         public IEnumerable<Invitation> SentInvitations { get; set; } = new List<Invitation>();
 
         [InverseProperty("ReceiverUser")]
-        public IEnumerable<Invitation> ReceivedInvitations { get; set; } = new List<Invitation>(); 
+        public IEnumerable<Invitation> ReceivedInvitations { get; set; } = new List<Invitation>();
+
+        [InverseProperty("SenderUser")]
+        public IEnumerable<Message> SentMessages { get; set; } = new List<Message>();
+
+        [InverseProperty("ReceiverUser")]
+        public IEnumerable<Message> ReceivedMessages { get; set; } = new List<Message>(); 
     }
 }

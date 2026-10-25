@@ -15,7 +15,9 @@ namespace SocialNetworkApp.Data
 
         public DbSet<Like> Likes { get; set; } 
 
-        public DbSet<Invitation> Invitations { get; set; } 
+        public DbSet<Invitation> Invitations { get; set; }
+
+        public DbSet<Message> Messages { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -50,7 +52,23 @@ namespace SocialNetworkApp.Data
                     .WithMany(u => u.ReceivedInvitations)
                     .HasForeignKey(inv => inv.ReceiverUserId)
                     .OnDelete(DeleteBehavior.Restrict); 
-            }); 
+            });
+
+            // Message entity configuration 
+            // Error with the default delete behavior 'cascade'
+            // due to two foreign keys referencing the same table 
+            builder.Entity<Message>(entity =>
+            {
+                entity.HasOne(m => m.SenderUser)
+                    .WithMany(u => u.SentMessages)
+                    .HasForeignKey(m => m.SenderUserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(m => m.ReceiverUser)
+                    .WithMany(u => u.ReceivedMessages)
+                    .HasForeignKey(m => m.ReceiverUserId)
+                    .OnDelete(DeleteBehavior.Restrict); 
+            });  
         }
     }
 }

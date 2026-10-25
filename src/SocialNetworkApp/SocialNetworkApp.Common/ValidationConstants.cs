@@ -17,6 +17,12 @@
             public const int TextMaxLength = 1500; 
             
         }
+
+        public static class Message
+        {
+            public const int TextMinLength = 2; 
+            public const int TextMaxLength = 500; 
+        }
         
     }
 }
