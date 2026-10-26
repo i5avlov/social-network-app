@@ -17,7 +17,9 @@ namespace SocialNetworkApp.Data
 
         public DbSet<Invitation> Invitations { get; set; }
 
-        public DbSet<Message> Messages { get; set; } 
+        public DbSet<Message> Messages { get; set; }
+
+        public DbSet<Friendship> Friendships { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -68,7 +70,22 @@ namespace SocialNetworkApp.Data
                     .WithMany(u => u.ReceivedMessages)
                     .HasForeignKey(m => m.ReceiverUserId)
                     .OnDelete(DeleteBehavior.Restrict); 
-            });  
+            });
+
+            // Friendship entity configuration 
+            builder.Entity<Friendship>(entity => {
+                entity.HasKey(f => new { f.SourceUserId, f.TargetUserId });
+
+                entity.HasOne(f => f.SourceUser)
+                    .WithMany(u => u.SourceUserFriendships)
+                    .HasForeignKey(f => f.SourceUserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(f => f.TargetUser)
+                    .WithMany(u => u.TargetUserFriendships)
+                    .HasForeignKey(f => f.TargetUserId)
+                    .OnDelete(DeleteBehavior.Restrict); 
+            });
         }
     }
 }

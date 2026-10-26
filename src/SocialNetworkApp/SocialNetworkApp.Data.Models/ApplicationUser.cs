@@ -46,6 +46,14 @@ namespace SocialNetworkApp.Data.Models
         public IEnumerable<Message> SentMessages { get; set; } = new List<Message>();
 
         [InverseProperty("ReceiverUser")]
-        public IEnumerable<Message> ReceivedMessages { get; set; } = new List<Message>(); 
+        public IEnumerable<Message> ReceivedMessages { get; set; } = new List<Message>();
+
+        [InverseProperty("SourceUser")]
+        public IEnumerable<Friendship> SourceUserFriendships { get; set; } = new List<Friendship>();
+
+        [InverseProperty("TargetUser")] 
+        public IEnumerable<Friendship> TargetUserFriendships { get; set; } = new List<Friendship>(); 
+
+        
     }
 }

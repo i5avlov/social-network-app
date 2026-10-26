@@ -246,6 +246,27 @@ namespace SocialNetworkApp.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("SocialNetworkApp.Data.Models.Friendship", b =>
+                {
+                    b.Property<string>("SourceUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TargetUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("SourceUserId", "TargetUserId");
+
+                    b.HasIndex("TargetUserId");
+
+                    b.ToTable("Friendships");
+                });
+
             modelBuilder.Entity("SocialNetworkApp.Data.Models.Invitation", b =>
                 {
                     b.Property<int>("Id")
@@ -419,6 +440,25 @@ namespace SocialNetworkApp.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SocialNetworkApp.Data.Models.Friendship", b =>
+                {
+                    b.HasOne("SocialNetworkApp.Data.Models.ApplicationUser", "SourceUser")
+                        .WithMany("SourceUserFriendships")
+                        .HasForeignKey("SourceUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SocialNetworkApp.Data.Models.ApplicationUser", "TargetUser")
+                        .WithMany("TargetUserFriendships")
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("SourceUser");
+
+                    b.Navigation("TargetUser");
+                });
+
             modelBuilder.Entity("SocialNetworkApp.Data.Models.Invitation", b =>
                 {
                     b.HasOne("SocialNetworkApp.Data.Models.ApplicationUser", "ReceiverUser")
@@ -500,6 +540,10 @@ namespace SocialNetworkApp.Data.Migrations
                     b.Navigation("SentInvitations");
 
                     b.Navigation("SentMessages");
+
+                    b.Navigation("SourceUserFriendships");
+
+                    b.Navigation("TargetUserFriendships");
                 });
 
             modelBuilder.Entity("SocialNetworkApp.Data.Models.Post", b =>
