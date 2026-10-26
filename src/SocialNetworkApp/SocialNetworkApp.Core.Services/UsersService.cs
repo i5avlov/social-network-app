@@ -2,6 +2,7 @@
 using SocialNetworkApp.Core.Services.Contracts;
 using SocialNetworkApp.Data;
 using SocialNetworkApp.Data.Models;
+using SocialNetworkApp.ViewModels.Messages;
 using SocialNetworkApp.ViewModels.Users;
 
 namespace SocialNetworkApp.Core.Services
@@ -58,6 +59,25 @@ namespace SocialNetworkApp.Core.Services
         private static string FormatBirthdate(DateOnly birthdate)
         {
             return birthdate.ToString("MMMM dd, yyyy"); 
-        } 
+        }
+
+        public async Task<bool> ExistsById(string userId)
+        {
+            return await this.GetById(userId) != null; 
+        }
+
+        public async Task<MessageSenderViewModel> GetMessageSenderUserById(string userId)
+        {
+            return await this.context 
+                .Users 
+                .Where(u => u.Id == userId) 
+                .Select(u => new MessageSenderViewModel()
+                {
+                    Id = u.Id, 
+                    Name = u.FirstName + " " + u.LastName, 
+                    City = u.City 
+                })
+                .FirstAsync(); 
+        }
     }
 }

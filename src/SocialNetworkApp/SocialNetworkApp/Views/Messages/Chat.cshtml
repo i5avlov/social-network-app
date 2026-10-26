@@ -1,0 +1,85 @@
+﻿@model ChatViewModel 
+
+@{
+    ViewData["Title"] = "Chat"; 
+}
+
+<h2 class="h3">@ViewData["Title"]</h2>
+<hr /> 
+
+<div class="row">
+    <h4>Latest Messages</h4> 
+    <div class="col-md-6"> 
+        
+        @if (Model.Messages.Any())
+        {
+            <div>
+                @foreach (MessageListEntryViewModel message in Model.Messages)
+                { 
+                    var isLoggedUser = message.SenderUserId == Model.LoggedUser.Id; 
+                    var className = isLoggedUser ? "logged-user" : "other-user"; 
+
+                    <article class="mb-3 message @className-message"> 
+                        <div class="message-text"><strong>@message.Text</strong></div>
+                        <footer class="message-time-sent">@message.TimeSent</footer>
+
+                        <footer class="message-sender mt-2"> 
+                            <img class="message-sender-photo" /> 
+
+                            @if (isLoggedUser == false) 
+                            {
+                                var otherUser = Model.OtherUser;
+
+                                <div>@otherUser.Name</div>
+                                @* <div>@otherUser.City</div> *@ 
+                            }
+                            else
+                            {
+                                <div>You</div>
+                            }
+                        </footer>
+                    </article>
+                }
+            </div>
+        } 
+        else
+        {
+            <div>No messages.</div>    
+        }
+    </div>
+    <div class="col-md-6"> 
+        <form asp-asp-controller="Messages" asp-action="Chat" method="post"> 
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div> 
+
+            <div class="form-floating mb-3">
+                <textarea asp-for="@Model.MessageText" class="form-control" rows="8" style="height:100%;" aria-required="true" ></textarea>
+                <label asp-for="@Model.MessageText" class="form-label"></label>
+                <span asp-validation-for="@Model.MessageText" class="text-danger"></span>
+            </div> 
+
+            <input asp-for="@Model.LoggedUser.Id" type="hidden" /> 
+            <input asp-for="@Model.OtherUser.Id" type="hidden" /> 
+
+            <div>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Send Message</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 
+
+@section Styles { 
+    <style> 
+        .message-sender-photo {
+            width: 2rem; height: 2rem; border-radius: 2rem; border: 1px solid; 
+        }
+
+        .logged-user-message {
+            text-align: right; 
+        } 
+    </style> 
+}
+

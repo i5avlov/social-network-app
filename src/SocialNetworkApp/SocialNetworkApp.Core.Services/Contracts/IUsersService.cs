@@ -1,4 +1,5 @@
 ﻿using SocialNetworkApp.Data.Models;
+using SocialNetworkApp.ViewModels.Messages;
 using SocialNetworkApp.ViewModels.Users;
 
 namespace SocialNetworkApp.Core.Services.Contracts
@@ -9,6 +10,10 @@ namespace SocialNetworkApp.Core.Services.Contracts
 
         Task<ApplicationUser?> GetById(string userId); 
 
-        Task<UserProfileViewModel?> GetProfileById(string userId); 
+        Task<bool> ExistsById(string userId); 
+
+        Task<UserProfileViewModel?> GetProfileById(string userId);
+
+        Task<MessageSenderViewModel> GetMessageSenderUserById(string userId); 
     }
 }

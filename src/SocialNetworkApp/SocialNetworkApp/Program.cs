@@ -39,7 +39,9 @@ namespace SocialNetworkApp
             // Posts service 
             builder.Services.AddScoped<IPostsService, PostsService>();
             // Invitations service 
-            builder.Services.AddScoped<IInvitationsService, InvitationsService>(); 
+            builder.Services.AddScoped<IInvitationsService, InvitationsService>();
+            // Messages service 
+            builder.Services.AddScoped<IMessagesService, MessagesService>(); 
 
             var app = builder.Build();
 

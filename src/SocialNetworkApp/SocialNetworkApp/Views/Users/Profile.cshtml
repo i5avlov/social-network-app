@@ -16,7 +16,7 @@
 
 @if (Model.IsLoggedInUser)
 {
-    <a class="btn btn-success" asp-controller="Posts" asp-action="Add">Create Post</a>
+    <a class="btn btn-success" asp-controller="Posts" asp-action="Add">Create Post</a> 
 
     <h3 class="h4">Friend Invitations</h3>
     <div>
@@ -53,11 +53,18 @@
         asp-action="Create" 
         asp-route-receiverUserId="@Model.Id"
     >Become Friends</a> 
+    
 
     @if (TempData["InvitationSentMessage"] != null) 
     {
         <p class="bg-success text-white mt-2 p-2">@TempData["InvitationSentMessage"]</p> 
-    } 
+    }
+
+    <a class="btn btn-success"
+       asp-controller="Messages"
+       asp-action="Chat"
+       asp-route-otherUserId="@Model.Id"
+    >Send Message</a> 
 } 
 
 <h3 class="h4">Posts</h3> 
