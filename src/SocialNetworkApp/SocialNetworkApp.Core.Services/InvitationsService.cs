@@ -133,5 +133,19 @@ namespace SocialNetworkApp.Core.Services
             return invitation != null 
                 && invitation.SenderUserId == userId; 
         }
+
+        public async Task<InvitationDetailsViewModel> GetDetailsById(int invitationId)
+        {
+            return await this.context
+                .Invitations
+                .Where(inv => inv.Id == invitationId)
+                .Select(inv => new InvitationDetailsViewModel()
+                {
+                    SenderUserId = inv.SenderUserId,
+                    ReceiverUserId = inv.ReceiverUserId
+                })
+                .FirstAsync(); 
+
+        }
     }
 }

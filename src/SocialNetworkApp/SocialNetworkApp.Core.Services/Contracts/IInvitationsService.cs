@@ -11,6 +11,8 @@ namespace SocialNetworkApp.Core.Services.Contracts
 
         Task<IEnumerable<InvitationsListEntryViewModel>> GetAllWaitingByUserIdAsync(string userId);
 
+        Task<InvitationDetailsViewModel> GetDetailsById(int invitationId); 
+
         Task<bool> AcceptAsync(int invitationId); 
 
         Task<bool> RejectAsync(int invitationId);
@@ -20,5 +22,5 @@ namespace SocialNetworkApp.Core.Services.Contracts
         bool IsRejectedByUserIdAsync(Invitation? invitation, string userId); 
 
         bool IsSentByUserIdAsync(Invitation? invitation, string userId); 
-    }
+    } 
 }

@@ -12,10 +12,14 @@ namespace SocialNetworkApp.Controllers
     public class InvitationsController : Controller
     {
         private readonly IInvitationsService invitationsService; 
+        private readonly IFriendshipsService friendshipsService; 
 
-        public InvitationsController(IInvitationsService invitationsService)
+        public InvitationsController(
+            IInvitationsService invitationsService, 
+            IFriendshipsService friendshipsService)
         {
             this.invitationsService = invitationsService; 
+            this.friendshipsService = friendshipsService; 
         } 
 
         [HttpGet]
@@ -140,7 +144,14 @@ namespace SocialNetworkApp.Controllers
 
             try
             {
-                bool acceptSuccessful = await this.invitationsService.AcceptAsync(invitationId);
+                // Logged user accepts received invitation 
+                bool acceptSuccessful = await this.invitationsService.AcceptAsync(invitationId); 
+
+                // Get invitation details to access sender user id
+                string senderUserId = this.invitationsService.GetDetailsById(invitationId).Result.SenderUserId; 
+                // Create friendship 
+                bool createSuccessful = await this.friendshipsService.AddAsync(senderUserId, userId); 
+
                 return RedirectToAction("Profile", "Users", new { userId = userId }); 
             }
             catch (Exception ex)
