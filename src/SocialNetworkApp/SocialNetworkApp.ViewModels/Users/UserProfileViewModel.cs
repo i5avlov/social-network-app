@@ -21,6 +21,8 @@ namespace SocialNetworkApp.ViewModels.Users
 
         public IEnumerable<UsersListEntryViewModel> Friends { get; set; } = new List<UsersListEntryViewModel>(); 
 
-        public bool IsLoggedInUser { get; set; } 
+        public bool IsLoggedInUser { get; set; }
+
+        public bool? IsFriendsWithUser { get; set; } 
     }
 }

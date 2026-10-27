@@ -35,6 +35,20 @@ namespace SocialNetworkApp.Core.Services
             return await this.context.SaveChangesAsync() == 1; 
         }
 
+        public async Task<bool> FriendshipExists(string? userId, string? otherUserId)
+        {
+            if (userId.IsNullOrEmpty() 
+                || otherUserId.IsNullOrEmpty())
+            {
+                return false; 
+            } 
+
+            return await this.context 
+                .Friendships
+                .AnyAsync(f => f.SourceUserId == userId && f.TargetUserId == otherUserId
+                    || f.SourceUserId == otherUserId && f.TargetUserId == userId); 
+        }
+
         public async Task<IEnumerable<UsersListEntryViewModel>> GetAllAsync(string userId)
         {
             var sourceUserFriends = await this.context

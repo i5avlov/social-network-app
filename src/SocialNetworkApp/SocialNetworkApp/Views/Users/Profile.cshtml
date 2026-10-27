@@ -60,20 +60,24 @@
         <div class="alert alert-success" role="alert">
             @TempData["InvitationSentMessage"]
         </div>
+    } 
+
+    @if (Model.IsFriendsWithUser ?? false)
+    {
+        <a class="btn btn-success"
+           asp-controller="Messages"
+           asp-action="Chat"
+           asp-route-otherUserId="@Model.Id"
+        >Send Message</a>
     }
-
-    <a 
-        class="btn btn-success" 
-        asp-controller="Invitations" 
-        asp-action="Create" 
-        asp-route-receiverUserId="@Model.Id"
-    >Become Friends</a> 
-
-    <a class="btn btn-success"
-       asp-controller="Messages"
-       asp-action="Chat"
-       asp-route-otherUserId="@Model.Id"
-    >Send Message</a> 
+    else
+    {
+        <a class="btn btn-success"
+           asp-controller="Invitations"
+           asp-action="Create"
+           asp-route-receiverUserId="@Model.Id"
+        >Become Friends</a> 
+    }
 } 
 
 <div>
@@ -111,7 +115,12 @@
             </article> 
         } 
 
-        <a class="" asp-controller="" asp-action="" asp-route-userId="">All Friends</a> 
+        <a 
+            class="" 
+            asp-controller="Friendships" 
+            asp-action="GetAll" 
+            asp-route-userId="@Model.Id"
+        >All Friends</a> 
     }
     else
     {

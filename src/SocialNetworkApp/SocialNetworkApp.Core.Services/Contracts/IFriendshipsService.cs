@@ -6,6 +6,8 @@ namespace SocialNetworkApp.Core.Services.Contracts
     {
         Task<bool> AddAsync(string sourceUserId, string targetUserId);
 
-        Task<IEnumerable<UsersListEntryViewModel>> GetAllAsync(string userId); 
+        Task<IEnumerable<UsersListEntryViewModel>> GetAllAsync(string userId);
+
+        Task<bool> FriendshipExists(string? userId, string? otherUserId); 
     }
 }

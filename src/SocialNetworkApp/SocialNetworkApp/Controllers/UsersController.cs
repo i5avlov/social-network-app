@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using SocialNetworkApp.Core.Services.Contracts;
 using SocialNetworkApp.ViewModels.Users;
 using System.Security.Claims;
@@ -50,7 +51,7 @@ namespace SocialNetworkApp.Controllers
             if (model == null)
             {
                 return NotFound(); 
-            } 
+            }
 
             // Attach user posts to view model 
             model.Posts = await this.postsService.GetAllByUserIdAsync(userId);
@@ -59,9 +60,11 @@ namespace SocialNetworkApp.Controllers
             // Attach friends 
             model.Friends = await this.friendshipsService.GetAllAsync(userId); 
 
-            // Whether profile belongs to logged in user
-            string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);  
+            string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            // Whether profile belongs to logged in user 
             model.IsLoggedInUser = loggedInUserId == userId; 
+            // Whether logged in user and profile owner are friends 
+            model.IsFriendsWithUser = await this.friendshipsService.FriendshipExists(loggedInUserId, userId); 
 
             return View(model); 
         }
