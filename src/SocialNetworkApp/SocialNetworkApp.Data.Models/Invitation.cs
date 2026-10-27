@@ -1,6 +1,7 @@
 ﻿using SocialNetworkApp.Data.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static SocialNetworkApp.Common.ValidationConstants.Invitation; 
 
 namespace SocialNetworkApp.Data.Models
 {
@@ -9,7 +10,7 @@ namespace SocialNetworkApp.Data.Models
         [Key]
         public int Id { get; set; } 
 
-        [MaxLength(200)]
+        [MaxLength(TextMaxLength)] 
         public string? Text { get; set; }
 
         [Required] 
