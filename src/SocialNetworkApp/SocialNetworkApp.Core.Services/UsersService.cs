@@ -16,19 +16,25 @@ namespace SocialNetworkApp.Core.Services
             this.context = context; 
         } 
 
-        public async Task<IEnumerable<UsersIndexUserViewModel>> GetAll()
-        { 
-            // TODO: Exclude current user 
+        public async Task<IEnumerable<UsersListEntryViewModel>> GetAll(string? removeUserWithId = null) 
+        {
             // Get all users and map to index view model
-            return await this.context
+            var users = this.context
                 .Users
-                .Select(u => new UsersIndexUserViewModel
+                .Select(u => new UsersListEntryViewModel
                 {
                     Id = u.Id,
                     Name = $"{u.FirstName} {u.LastName}",
                     City = u.City
-                })
-                .ToListAsync(); 
+                }); 
+
+            // Id of user to remove from all is present 
+            if (removeUserWithId != null)
+            {
+                users = users.Where(u => u.Id != removeUserWithId); 
+            } 
+
+            return await users.ToListAsync(); 
         }
 
         public async Task<ApplicationUser?> GetById(string userId)
@@ -52,6 +58,7 @@ namespace SocialNetworkApp.Core.Services
                     LastName = u.LastName, 
                     City = u.City, 
                     Birthdate = FormatBirthdate(u.Birthdate)
+                        
                 })
                 .FirstOrDefaultAsync(); 
         }

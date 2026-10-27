@@ -10,22 +10,27 @@ namespace SocialNetworkApp.Controllers
         private readonly IUsersService usersService; 
         private readonly IPostsService postsService; 
         private readonly IInvitationsService invitationsService; 
+        private readonly IFriendshipsService friendshipsService; 
 
         public UsersController(
             IUsersService usersService, 
             IPostsService postsService, 
-            IInvitationsService invitationsService) 
+            IInvitationsService invitationsService, 
+            IFriendshipsService friendshipsService) 
         {
             this.usersService = usersService; 
             this.postsService = postsService; 
-            this.invitationsService = invitationsService; 
+            this.invitationsService = invitationsService;
+            this.friendshipsService = friendshipsService; 
         }
 
         [HttpGet] 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<UsersIndexUserViewModel> model = await this.usersService
-                .GetAll(); 
+            string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); 
+            // All users when no user is logged in
+            // or all except the logged in user 
+            IEnumerable<UsersListEntryViewModel> model = await this.usersService.GetAll(loggedInUserId);
             return View(model); 
         }
 
@@ -50,7 +55,9 @@ namespace SocialNetworkApp.Controllers
             // Attach user posts to view model 
             model.Posts = await this.postsService.GetAllByUserIdAsync(userId);
             // Attach waiting received invitations 
-            model.WaitingInvitations = await this.invitationsService.GetAllWaitingByUserIdAsync(userId); 
+            model.WaitingInvitations = await this.invitationsService.GetAllWaitingByUserIdAsync(userId);
+            // Attach friends 
+            model.Friends = await this.friendshipsService.GetAllAsync(userId); 
 
             // Whether profile belongs to logged in user
             string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);  

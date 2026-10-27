@@ -6,7 +6,7 @@ namespace SocialNetworkApp.Core.Services.Contracts
 {
     public interface IUsersService
     {
-        Task<IEnumerable<UsersIndexUserViewModel>> GetAll();
+        Task<IEnumerable<UsersListEntryViewModel>> GetAll(string? removeUserWithId); 
 
         Task<ApplicationUser?> GetById(string userId); 
 
