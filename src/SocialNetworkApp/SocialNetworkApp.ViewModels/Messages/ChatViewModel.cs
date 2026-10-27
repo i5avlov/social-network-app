@@ -14,9 +14,11 @@ namespace SocialNetworkApp.ViewModels.Messages
         [Required] 
         public MessageSenderViewModel LoggedUser { get; set; } = null!;
 
-        [StringLength(Message.TextMaxLength, 
-            MinimumLength = Message.TextMinLength, 
-            ErrorMessage = LengthOutOfRangeMessage)] 
-        public string? MessageText { get; set; } 
+        [Required]
+        [StringLength(Message.TextMaxLength,
+            MinimumLength = Message.TextMinLength,
+            ErrorMessage = LengthOutOfRangeMessage)]
+        [Display(Name = "Message Text")]
+        public string MessageText { get; set; } = string.Empty; 
     }
 }
