@@ -8,6 +8,13 @@
 @if (Model.IsLikedByLoggedUser) 
 {
     <p class="alert-dismissible">You liked this post.</p>  
+} 
+
+@if (TempData["OwnPostLikeNotAllowed"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["OwnPostLikeNotAllowed"] 
+    </div>
 }
 
 <h1 class="h2">@ViewData["Title"]</h1>

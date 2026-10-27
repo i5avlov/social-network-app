@@ -122,6 +122,13 @@ namespace SocialNetworkApp.Controllers
                 return Unauthorized(); 
             }
 
+            bool isUserOwnPost = await this.postsService.GetAuthorIdAsync(postId) == likingUserId; 
+            if (isUserOwnPost)
+            {
+                TempData["OwnPostLikeNotAllowed"] = "Yoou cannot like your own post."; 
+                return RedirectToAction(nameof(Details), new { postId = postId }); 
+            } 
+
             try
             {
                 await this.postsService.LikeAsync(postId, loggedInUserId); 
