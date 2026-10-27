@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SocialNetworkApp.ViewModels;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace SocialNetworkApp.Controllers
 {
@@ -15,6 +16,12 @@ namespace SocialNetworkApp.Controllers
 
         public IActionResult Index()
         {
+            if (this.User.Identity?.IsAuthenticated ?? false)
+            {
+                string? userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                return RedirectToAction("Profile", "Users", new { userId = userId }); 
+
+            }
             return View();
         }
 
