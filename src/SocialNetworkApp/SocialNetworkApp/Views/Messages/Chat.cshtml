@@ -55,22 +55,23 @@
         }
     </div>
     <div class="col-md-6"> 
-        <form asp-asp-controller="Messages" asp-action="Chat" method="post"> 
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div> 
-
-            <div class="form-floating mb-3">
-                <textarea asp-for="@Model.MessageText" class="form-control" rows="8" style="height:100%;" aria-required="true" ></textarea>
-                <label asp-for="@Model.MessageText" class="form-label"></label>
-                <span asp-validation-for="@Model.MessageText" class="text-danger"></span>
-            </div> 
-
-            <input asp-for="@Model.LoggedUser.Id" type="hidden" /> 
-            <input asp-for="@Model.OtherUser.Id" type="hidden" /> 
-
-            <div>
-                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Send Message</button>
-            </div>
+        <section>
+            <form method="post"> 
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div> 
+                <div class="form-floating mb-3">
+                    <textarea asp-for="@Model.MessageText" class="form-control" rows="8" style="height:100%;" aria-required="true" placeholder=""></textarea>
+                    <label asp-for="@Model.MessageText" class="form-label"></label>
+                    <span asp-validation-for="@Model.MessageText" class="text-danger"></span>
+                </div> 
+                <div>
+                    <input asp-for="@Model.LoggedUser.Id" type="hidden" /> 
+                    <input asp-for="@Model.OtherUser.Id" type="hidden" /> 
+                </div>
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Send Message</button>
+                </div>
         </form>
+        </section>
     </div>
 </div>
 
