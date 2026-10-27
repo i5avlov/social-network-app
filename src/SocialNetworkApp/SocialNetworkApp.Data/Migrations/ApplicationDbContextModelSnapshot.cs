@@ -264,7 +264,7 @@ namespace SocialNetworkApp.Data.Migrations
 
                     b.HasIndex("TargetUserId");
 
-                    b.ToTable("Friendships");
+                    b.ToTable("Friendships", (string)null);
                 });
 
             modelBuilder.Entity("SocialNetworkApp.Data.Models.Invitation", b =>
@@ -302,7 +302,7 @@ namespace SocialNetworkApp.Data.Migrations
 
                     b.HasIndex("SenderUserId");
 
-                    b.ToTable("Invitations");
+                    b.ToTable("Invitations", (string)null);
                 });
 
             modelBuilder.Entity("SocialNetworkApp.Data.Models.Like", b =>
@@ -326,7 +326,7 @@ namespace SocialNetworkApp.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Likes");
+                    b.ToTable("Likes", (string)null);
                 });
 
             modelBuilder.Entity("SocialNetworkApp.Data.Models.Message", b =>
@@ -362,7 +362,7 @@ namespace SocialNetworkApp.Data.Migrations
 
                     b.HasIndex("SenderUserId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("SocialNetworkApp.Data.Models.Post", b =>
@@ -386,7 +386,7 @@ namespace SocialNetworkApp.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

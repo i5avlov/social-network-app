@@ -1,8 +1,21 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Social Network App";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Nullam quis nisl non tellus luctus porta in id dui. In hac habitasse platea dictumst. Morbi orci nisl, euismod eget enim quis, dictum ornare diam. Morbi pulvinar nisl ante, eu mattis justo placerat at. Praesent eleifend imperdiet justo, ut bibendum odio scelerisque hendrerit. Ut eget consequat ligula.</p>
+    <a 
+        class="btn btn-primary me-1" 
+        asp-area="Identity" 
+        asp-controller="Account" 
+        asp-action="Register"
+    >Register</a>
+    
+    <a 
+        class="btn btn-primary" 
+        asp-area="Identity" 
+        asp-controller="Account" 
+        asp-action="Login"
+    >Login</a>
 </div>

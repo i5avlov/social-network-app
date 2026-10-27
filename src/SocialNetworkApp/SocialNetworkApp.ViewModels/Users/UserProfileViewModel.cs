@@ -17,7 +17,9 @@ namespace SocialNetworkApp.ViewModels.Users
 
         public IEnumerable<PostsListEntryViewModel> Posts { get; set; } = new List<PostsListEntryViewModel>();
 
-        public IEnumerable<InvitationsListEntryViewModel> WaitingInvitations { get; set; } = new List<InvitationsListEntryViewModel>(); 
+        public IEnumerable<InvitationsListEntryViewModel> WaitingInvitations { get; set; } = new List<InvitationsListEntryViewModel>();
+
+        public IEnumerable<UsersListEntryViewModel> Friends { get; set; } = new List<UsersListEntryViewModel>(); 
 
         public bool IsLoggedInUser { get; set; } 
     }
