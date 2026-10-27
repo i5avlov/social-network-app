@@ -23,6 +23,12 @@
             public const int TextMinLength = 2; 
             public const int TextMaxLength = 500; 
         }
+
+        public static class Invitation
+        {
+            public const int TextMinLength = 2;
+            public const int TextMaxLength = 200;
+        }
         
     }
 }
