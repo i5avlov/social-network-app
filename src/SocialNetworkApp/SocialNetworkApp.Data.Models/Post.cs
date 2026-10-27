@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static SocialNetworkApp.Common.ValidationConstants.Post; 
 
 namespace SocialNetworkApp.Data.Models
 {
@@ -9,7 +10,7 @@ namespace SocialNetworkApp.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(1500)]
+        [MaxLength(TextMaxLength)] 
         public string Text { get; set; } = null!;
 
         [Required]
