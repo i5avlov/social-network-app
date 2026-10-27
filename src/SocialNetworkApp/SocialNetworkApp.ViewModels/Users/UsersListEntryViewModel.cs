@@ -1,6 +1,6 @@
 ﻿namespace SocialNetworkApp.ViewModels.Users
 {
-    public class UsersIndexUserViewModel
+    public class UsersListEntryViewModel
     {
         public string Id { get; set; } = null!; 
 
