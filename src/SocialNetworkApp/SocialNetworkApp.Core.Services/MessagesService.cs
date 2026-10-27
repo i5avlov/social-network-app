@@ -4,6 +4,7 @@ using SocialNetworkApp.Core.Services.Contracts;
 using SocialNetworkApp.Data;
 using SocialNetworkApp.Data.Models;
 using SocialNetworkApp.ViewModels.Messages;
+using static SocialNetworkApp.Common.Constants; 
 
 namespace SocialNetworkApp.Core.Services
 {  
@@ -53,7 +54,7 @@ namespace SocialNetworkApp.Core.Services
                 {
                     SenderUserId = m.SenderUserId, 
                     Text = m.Text, 
-                    TimeSent = m.TimeSent.ToShortTimeString() 
+                    TimeSent = m.TimeSent.ToString(ChatMessageTimeSentFormat) 
                 }) 
                 .ToListAsync(); 
         }
