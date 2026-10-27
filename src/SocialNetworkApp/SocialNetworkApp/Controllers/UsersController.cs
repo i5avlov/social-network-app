@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using SocialNetworkApp.Core.Services.Contracts;
 using SocialNetworkApp.ViewModels.Users;
@@ -6,6 +7,7 @@ using System.Security.Claims;
 
 namespace SocialNetworkApp.Controllers
 {
+    [Authorize] 
     public class UsersController : Controller
     {
         private readonly IUsersService usersService; 
@@ -25,7 +27,8 @@ namespace SocialNetworkApp.Controllers
             this.friendshipsService = friendshipsService; 
         }
 
-        [HttpGet] 
+        [HttpGet]
+        [AllowAnonymous] 
         public async Task<IActionResult> Index()
         {
             string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); 
@@ -35,7 +38,7 @@ namespace SocialNetworkApp.Controllers
             return View(model); 
         }
 
-        [HttpGet] 
+        [HttpGet]
         public async Task<IActionResult> Profile(string userId)
         { 
             // No user id 
