@@ -1,7 +1,9 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SocialNetworkApp.Core.Services.Contracts;
 using SocialNetworkApp.Data;
 using SocialNetworkApp.Data.Models;
+using SocialNetworkApp.ViewModels.Users;
 
 namespace SocialNetworkApp.Core.Services
 {
@@ -31,6 +33,32 @@ namespace SocialNetworkApp.Core.Services
                 .Friendships
                 .AddAsync(entity);
             return await this.context.SaveChangesAsync() == 1; 
+        }
+
+        public async Task<IEnumerable<UsersListEntryViewModel>> GetAllAsync(string userId)
+        {
+            var sourceUserFriends = await this.context
+                .Friendships
+                .Where(f => f.SourceUserId == userId)
+                .Select(f => new UsersListEntryViewModel()
+                { 
+                    Id = f.TargetUser.Id, 
+                    Name = f.TargetUser.FirstName + " " + f.TargetUser.LastName, 
+                    City = f.TargetUser.City 
+                })
+                .ToListAsync(); 
+            var targetUserFriends = await this.context
+                .Friendships
+                .Where(f => f.TargetUserId == userId)
+                .Select(f => new UsersListEntryViewModel()
+                {
+                    Id = f.SourceUser.Id,
+                    Name = f.SourceUser.FirstName + " " + f.SourceUser.LastName,
+                    City = f.SourceUser.City
+                })
+                .ToListAsync(); 
+
+            return sourceUserFriends.Concat(targetUserFriends); 
         }
     }
 }
