@@ -10,55 +10,64 @@
 <hr /> 
 
 <div>
-    <p><strong>City:</strong> @Model.City</p>
+    <p class="mb-1"><strong>City:</strong> @Model.City</p> 
     <p><strong>Born:</strong> @Model.Birthdate</p>
-</div>
+</div> 
 
 @if (Model.IsLoggedInUser)
 {
-    <a class="btn btn-success" asp-controller="Posts" asp-action="Add">Create Post</a> 
+    <a class="btn btn-success" asp-controller="Posts" asp-action="Add">Create Post</a>
 
-    <h3 class="h4">Friend Invitations</h3>
     <div>
-        @foreach (InvitationsListEntryViewModel inv in Model.WaitingInvitations)
+        <h3 class="h4 mt-4">Friend Invitations</h3>
+     
+        @if (Model.WaitingInvitations.Any())
         {
-            <article>
-                <div>@inv.Text</div>
-                <div><strong>@inv.User.Name</strong></div>
+            @foreach (InvitationsListEntryViewModel inv in Model.WaitingInvitations)
+            {
+                    <article>
+                        <div>@inv.Text</div>
+                        <div><strong>@inv.User.Name</strong></div>
 
-                <div class="d-flex"> 
-                    <form asp-controller="Invitations" asp-action="Accept" method="POST">
-                        <input type="hidden" name="invitationId" value="@inv.Id" /> 
-                        <button class="btn btn-success">Accept</button> 
-                    </form>
+                        <div class="d-flex">
+                            <form asp-controller="Invitations" asp-action="Accept" method="POST">
+                                <input type="hidden" name="invitationId" value="@inv.Id" />
+                                <button class="btn btn-success">Accept</button>
+                            </form>
 
-                    <form asp-controller="Invitations" asp-action="Reject" method="POST" class="ms-2"> 
-                        <input type="hidden" name="invitationId" value="@inv.Id" /> 
-                        <button class="btn btn-danger">Reject</button>
-                    </form>
-                </div> 
-            </article>
-            <hr />
+                            <form asp-controller="Invitations" asp-action="Reject" method="POST" class="ms-2">
+                                <input type="hidden" name="invitationId" value="@inv.Id" />
+                                <button class="btn btn-danger">Reject</button>
+                            </form>
+                        </div>
+                    </article>
+                    <hr />
+            }
+
+            <a class="" asp-controller="" asp-action="" asp-route-userId="">All Received</a>
         }
-
-        <a class="btn btn-success" asp-controller="" asp-action="" asp-route-userId="">All Received</a>
+        else
+        {
+            <div>No new invitations.</div> 
+        }
     </div> 
 } 
 
 @if (Model.IsLoggedInUser == false)
-{
+{ 
+    @if (TempData["InvitationSentMessage"] != null)
+    { 
+        <div class="alert alert-success" role="alert">
+            @TempData["InvitationSentMessage"]
+        </div>
+    }
+
     <a 
         class="btn btn-success" 
         asp-controller="Invitations" 
         asp-action="Create" 
         asp-route-receiverUserId="@Model.Id"
     >Become Friends</a> 
-    
-
-    @if (TempData["InvitationSentMessage"] != null) 
-    {
-        <p class="bg-success text-white mt-2 p-2">@TempData["InvitationSentMessage"]</p> 
-    }
 
     <a class="btn btn-success"
        asp-controller="Messages"
@@ -67,15 +76,47 @@
     >Send Message</a> 
 } 
 
-<h3 class="h4">Posts</h3> 
-<div> 
-    @foreach (PostsListEntryViewModel post in Model.Posts)
-    { 
-        <article> 
-            <p>@post.Text</p> 
-        </article> 
-        <hr /> 
-    } 
+<div>
+    <h3 class="h4 mt-4">Posts</h3>  
 
-    <a class="btn btn-success" asp-controller="Posts" asp-action="UserPosts" asp-route-userId="@Model.Id">All Posts</a> 
-</div>
+    @if (Model.Posts.Any()) 
+    { 
+        @foreach (PostsListEntryViewModel post in Model.Posts)
+        { 
+            <article> 
+                <p>@post.Text</p> 
+            </article> 
+            <hr /> 
+        } 
+
+        <a class="" asp-controller="Posts" asp-action="UserPosts" asp-route-userId="@Model.Id">All Posts</a> 
+    } 
+    else
+    {
+        <div>No posts.</div> 
+    }
+</div> 
+
+<div>
+    <h3 class="h4 mt-4">Friends</h3> 
+
+    @if (Model.Friends.Any()) 
+    { 
+        @foreach (UsersListEntryViewModel f in Model.Friends)
+        {
+            
+            <article class="mb-2">
+                <div><strong>@f.Name</strong></div>
+                <div>@f.City</div>
+            </article> 
+        } 
+
+        <a class="" asp-controller="" asp-action="" asp-route-userId="">All Friends</a> 
+    }
+    else
+    {
+        <div>No friends yet.</div>
+    }
+</div> 
+
+
