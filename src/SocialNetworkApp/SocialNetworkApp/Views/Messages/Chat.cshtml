@@ -2,6 +2,13 @@
 
 @{
     ViewData["Title"] = "Chat"; 
+} 
+
+@if (TempData["SendMessageOnlyToFriendAllowed"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SendMessageOnlyToFriendAllowed"] 
+    </div>
 }
 
 <h2 class="h3">@ViewData["Title"]</h2>

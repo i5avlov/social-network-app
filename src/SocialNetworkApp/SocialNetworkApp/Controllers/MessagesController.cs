@@ -6,18 +6,21 @@ using System.Security.Claims;
 
 namespace SocialNetworkApp.Controllers
 {
-    
+    [Authorize] 
     public class MessagesController : Controller
     {
         private readonly IMessagesService messagesService; 
         private readonly IUsersService usersService; 
+        private readonly IFriendshipsService friendshipsService; 
 
         public MessagesController(
             IMessagesService messagesService, 
-            IUsersService usersService) 
+            IUsersService usersService, 
+            IFriendshipsService friendshipsService) 
         {
             this.messagesService = messagesService; 
-            this.usersService = usersService; 
+            this.usersService = usersService;
+            this.friendshipsService = friendshipsService; 
         } 
 
         [HttpGet]
@@ -28,6 +31,14 @@ namespace SocialNetworkApp.Controllers
             if (loggedUserId == null)
             {
                 return Unauthorized();
+            }
+
+            bool areFriendsUsers = await this.friendshipsService.FriendshipExists(loggedUserId, otherUserId);
+            // Users are not friends 
+            if (areFriendsUsers == false) 
+            {
+                TempData["SendMessageOnlyToFriendAllowed"] = "You cannot send a message to a user that is not your friend.";
+                return RedirectToAction(nameof(Chat), new { otherUserId = otherUserId });
             }
 
             try
@@ -67,6 +78,14 @@ namespace SocialNetworkApp.Controllers
             if (otherUserExists == false)
             {
                 return BadRequest(); 
+            }
+
+            bool areFriendsUsers = await this.friendshipsService.FriendshipExists(loggedUserId, model.OtherUser.Id);
+            // Users are not friends 
+            if (areFriendsUsers == false)
+            {
+                TempData["SendMessageOnlyToFriendAllowed"] = "You cannot send a message to a user that is not your friend.";
+                return RedirectToAction(nameof(Chat), new { otherUserId = model.OtherUser.Id });
             }
 
             if (ModelState.IsValid == false)
