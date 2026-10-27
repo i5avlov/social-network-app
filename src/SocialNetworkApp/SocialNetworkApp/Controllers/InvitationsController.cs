@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SocialNetworkApp.Core.Services.Contracts;
 using SocialNetworkApp.Data.Models;
 using SocialNetworkApp.Data.Models.Enums;
 using SocialNetworkApp.ViewModels.Invitations;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace SocialNetworkApp.Controllers
 {
-    
+    [Authorize] 
     public class InvitationsController : Controller
     {
         private readonly IInvitationsService invitationsService; 
