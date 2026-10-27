@@ -4,6 +4,7 @@ using SocialNetworkApp.Core.Services.Contracts;
 using SocialNetworkApp.Data.Models;
 using SocialNetworkApp.ViewModels;
 using SocialNetworkApp.ViewModels.Posts;
+using System;
 using System.Security.Claims;
 
 namespace SocialNetworkApp.Controllers
@@ -12,14 +13,16 @@ namespace SocialNetworkApp.Controllers
     public class PostsController : Controller
     {
         private readonly IPostsService postsService;
-        private readonly IUsersService usersService; 
-
+        private readonly IUsersService usersService;
+        private readonly IFriendshipsService friendshipsService; 
         public PostsController(
             IPostsService postsService, 
-            IUsersService usersService)
+            IUsersService usersService,
+            IFriendshipsService friendshipsService)
         {
             this.postsService = postsService;
-            this.usersService = usersService; 
+            this.usersService = usersService;
+            this.friendshipsService = friendshipsService; 
         }
 
         [HttpGet] 
@@ -115,9 +118,9 @@ namespace SocialNetworkApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Like(int postId, string likingUserId) 
         {
-            string? loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (loggedInUserId == null 
-                || likingUserId != loggedInUserId)
+            string? loggedUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (loggedUserId == null 
+                || likingUserId != loggedUserId)
             {
                 return Unauthorized(); 
             }
@@ -127,11 +130,19 @@ namespace SocialNetworkApp.Controllers
             {
                 TempData["OwnPostLikeNotAllowed"] = "Yoou cannot like your own post."; 
                 return RedirectToAction(nameof(Details), new { postId = postId }); 
-            } 
+            }
+
+            bool areFriendsUsers = await this.friendshipsService.FriendshipExists(loggedUserId, likingUserId);
+            // Users are not friends 
+            if (areFriendsUsers == false)
+            {
+                TempData["PostLikeOnlyToFriendAllowed"] = "You cannot like a post of a user that is not your friend.";
+                return RedirectToAction(nameof(Details), new { postId = postId });
+            }
 
             try
             {
-                await this.postsService.LikeAsync(postId, loggedInUserId); 
+                await this.postsService.LikeAsync(postId, loggedUserId); 
                 return RedirectToAction(nameof(Details), new { postId = postId }); 
             }
             catch

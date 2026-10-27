@@ -15,6 +15,13 @@
     <div class="alert alert-success" role="alert">
         @TempData["OwnPostLikeNotAllowed"] 
     </div>
+} 
+
+@if (TempData["PostLikeOnlyToFriendAllowed"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["PostLikeOnlyToFriendAllowed"]
+    </div>
 }
 
 <h1 class="h2">@ViewData["Title"]</h1>
