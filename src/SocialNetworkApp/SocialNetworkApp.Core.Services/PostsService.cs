@@ -15,7 +15,7 @@ namespace SocialNetworkApp.Core.Services
             this.context = context;
         } 
 
-        public async Task AddAsync(CreatePostFormModel model) 
+        public async Task<int> AddAsync(CreatePostFormModel model) 
         { 
             // Fill in model data in new Post entity 
             Post entity = new Post()
@@ -24,10 +24,11 @@ namespace SocialNetworkApp.Core.Services
                 UserId = model.UserId
             }; 
             // Add and save entity 
-            await this.context
+            var entry = await this.context
                 .Posts
                 .AddAsync(entity);
-            await this.context.SaveChangesAsync(); 
+            await this.context.SaveChangesAsync();
+            return entry.Entity.Id; 
         }
 
         public async Task<IEnumerable<PostsListEntryViewModel>> GetAllByUserIdAsync(string userId)

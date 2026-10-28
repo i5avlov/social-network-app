@@ -1,10 +1,11 @@
-﻿using SocialNetworkApp.ViewModels.Posts;
+﻿using SocialNetworkApp.Data.Models;
+using SocialNetworkApp.ViewModels.Posts;
 
 namespace SocialNetworkApp.Core.Services.Contracts
 {
     public interface IPostsService
     {
-        Task AddAsync(CreatePostFormModel model);
+        Task<int> AddAsync(CreatePostFormModel model); 
 
         Task<CreatePostFormModel?> GetToEditAsync(int postId);
 
