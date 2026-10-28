@@ -19,7 +19,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
-using static SocialNetworkApp.Common.ValidationConstants.ApplicationUser; 
+using static SocialNetworkApp.Common.ValidationConstants.User; 
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SocialNetworkApp.Areas.Identity.Pages.Account

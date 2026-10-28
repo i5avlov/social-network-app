@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static SocialNetworkApp.Common.ValidationConstants.ApplicationUser; 
+using static SocialNetworkApp.Common.ValidationConstants.User; 
 using static SocialNetworkApp.Common.ErrorMessages; 
 
 
