@@ -23,7 +23,7 @@ namespace SocialNetworkApp.Controllers
             this.postsService = postsService;
             this.usersService = usersService;
             this.friendshipsService = friendshipsService; 
-        }
+        } 
 
         [HttpGet] 
         public async Task<IActionResult> Details(int postId)
@@ -87,6 +87,43 @@ namespace SocialNetworkApp.Controllers
             { 
                 return View("Error"); 
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int postId)
+        {
+            string? userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            CreatePostFormModel? model = await this.postsService.GetToEditAsync(postId);
+            if (model == null 
+                || model.UserId != userId)
+            {
+                return BadRequest(); 
+            }
+            return View(model); 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int postId, CreatePostFormModel model) 
+        {
+            string? userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            if (model.UserId != userId)
+            {
+                return BadRequest();
+            }
+            if (ModelState.IsValid == false)
+            {
+                return View(model); 
+            }
+            await this.postsService.EditAsync(postId, model);
+            return RedirectToAction(nameof(Details), new { postId = postId }); 
         }
 
         [HttpGet]

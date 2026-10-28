@@ -131,5 +131,32 @@ namespace SocialNetworkApp.Core.Services
                 .SingleOrDefaultAsync(l => l.PostId == postId && l.UserId == userId);
             return like != null && like.IsDeleted == false; 
         }
+
+        public async Task<CreatePostFormModel?> GetToEditAsync(int postId) 
+        {
+            return await this.context
+                .Posts 
+                .AsNoTracking() 
+                .Where(p => p.Id == postId)
+                .Select(p => new CreatePostFormModel()
+                {
+                    Text = p.Text,
+                    UserId = p.UserId
+                })
+                .FirstOrDefaultAsync(); 
+        }
+
+        public async Task<bool> EditAsync(int postId, CreatePostFormModel model)
+        {
+            Post? post = await this.context
+                .Posts
+                .FindAsync(postId);
+            if (post == null)
+            {
+                return false; 
+            }
+            post.Text = model.Text;
+            return await this.context.SaveChangesAsync() > 0; 
+        }
     }
 }

@@ -6,6 +6,10 @@ namespace SocialNetworkApp.Core.Services.Contracts
     {
         Task AddAsync(CreatePostFormModel model);
 
+        Task<CreatePostFormModel?> GetToEditAsync(int postId);
+
+        Task<bool> EditAsync(int postId, CreatePostFormModel model); 
+
         Task<IEnumerable<PostsListEntryViewModel>> GetAllByUserIdAsync(string userId);
 
         Task<PostDetailsViewModel?> GetDetailsByIdAsync(int postId);
