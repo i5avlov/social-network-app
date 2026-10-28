@@ -43,6 +43,7 @@
 @if (Model.IsLoggedInUser == true)
 {
     <div class="d-inline">
+        <a class="btn btn-success" asp-controller="Posts" asp-action="UserPosts" asp-route-userId="@Model.UserId">Back to All Posts</a> 
         <a class="btn btn-primary" asp-controller="Posts" asp-action="Edit" asp-route-postId="@Model.Id">Edit</a>
         <a class="btn btn-danger" asp-controller="Posts" asp-action="Delete" asp-route-postId="@Model.Id">Delete</a>
     </div>

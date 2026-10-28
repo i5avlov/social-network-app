@@ -39,7 +39,7 @@ namespace SocialNetworkApp.Controllers
             } 
 
             string postAuthorId = await this.postsService.GetAuthorIdAsync(postId);
-            
+            model.UserId = postAuthorId; 
             model.IsLoggedInUser = postAuthorId == loggedInUserId;
             model.IsLikedByLoggedUser = await this.postsService.LikeExistsAsync(postId, loggedInUserId); 
 
