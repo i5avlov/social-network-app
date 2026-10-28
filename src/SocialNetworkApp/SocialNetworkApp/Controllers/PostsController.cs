@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SocialNetworkApp.Core.Services.Contracts;
 using SocialNetworkApp.Data.Models;
-using SocialNetworkApp.ViewModels;
 using SocialNetworkApp.ViewModels.Posts;
-using System;
 using System.Security.Claims;
 
 namespace SocialNetworkApp.Controllers
@@ -40,8 +38,8 @@ namespace SocialNetworkApp.Controllers
                 return NotFound(); 
             } 
 
-            string postAuthorId = await this.postsService.GetAuthorIdAsync(postId); 
-
+            string postAuthorId = await this.postsService.GetAuthorIdAsync(postId);
+            
             model.IsLoggedInUser = postAuthorId == loggedInUserId;
             model.IsLikedByLoggedUser = await this.postsService.LikeExistsAsync(postId, loggedInUserId); 
 
@@ -80,8 +78,8 @@ namespace SocialNetworkApp.Controllers
 
             try
             {
-                await this.postsService.AddAsync(model);
-                return RedirectToAction("Profile", "Users", new { userId = userId }); 
+                int postId = await this.postsService.AddAsync(model);
+                return RedirectToAction(nameof(Details), new { postId = postId }); 
             }
             catch 
             { 
