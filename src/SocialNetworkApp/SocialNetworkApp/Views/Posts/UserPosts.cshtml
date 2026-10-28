@@ -23,8 +23,8 @@
             @if (Model.IsLoggedInUser == true)
             {
                 <div class="d-inline"> 
-                    <a class="btn btn-primary" asp-controller="Posts" asp-action="Edit">Edit</a> 
-                    <a class="btn btn-danger" asp-controller="Posts" asp-action="Delete">Delete</a>
+                    <a class="btn btn-primary" asp-controller="Posts" asp-action="Edit" asp-route-postId="@post.Id">Edit</a>
+                    <a class="btn btn-danger" asp-controller="Posts" asp-action="Delete" asp-route-postId="@post.Id">Delete</a> 
                 </div>
             }
         </article>
