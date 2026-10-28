@@ -15,9 +15,15 @@
 </div> 
 
 @if (Model.IsLoggedInUser)
-{
-    <a class="btn btn-success" asp-controller="Posts" asp-action="Add">Create Post</a>
+{ 
+    <div>
+        <a class="btn btn-success" asp-controller="Posts" asp-action="Add">Create Post</a> 
+        <a class="btn btn-success" asp-controller="Users" asp-action="Index">Find Friends</a> 
+    </div>
+}
 
+@if (Model.IsLoggedInUser)
+{ 
     <div>
         <h3 class="h4 mt-4">Friend Invitations</h3>
      
@@ -106,21 +112,36 @@
 
     @if (Model.Friends.Any()) 
     { 
-        @foreach (UsersListEntryViewModel f in Model.Friends)
-        {
+        <div class="row"> 
+            @foreach (UsersListEntryViewModel f in Model.Friends)
+            {
             
-            <article class="mb-2">
-                <div><strong>@f.Name</strong></div>
-                <div>@f.City</div>
-            </article> 
-        } 
+                <article class="col-md-2 mb-2"> 
+                    <div><strong>@f.Name</strong></div> 
+                    <div>@f.City</div>
+                    <a class=""
+                       asp-controller="Users"
+                       asp-action="Profile"
+                       asp-route-userId="@f.Id"
+                    >View</a> 
+                    @if (Model.IsLoggedInUser)
+                    {
+                        <a class=""
+                           asp-controller="Messages"
+                           asp-action="Chat"
+                           asp-route-otherUserId="@f.Id"
+                        >Send Message</a>
+                    }
+                </article> 
+            } 
 
-        <a 
-            class="" 
-            asp-controller="Friendships" 
-            asp-action="GetAll" 
-            asp-route-userId="@Model.Id"
-        >All Friends</a> 
+            <a 
+                class="" 
+                asp-controller="Friendships" 
+                asp-action="GetAll" 
+                asp-route-userId="@Model.Id"
+            >All Friends</a>
+        </div>
     }
     else
     {
